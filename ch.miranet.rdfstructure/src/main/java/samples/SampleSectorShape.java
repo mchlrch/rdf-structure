@@ -17,7 +17,9 @@ public class SampleSectorShape {
 
 		builder.nodeShape("ex:SectorShape")
 				.targetClass("ex:Sector")
-				.property("skos:notation").count(1);
+				.property("skos:notation", prop -> {
+					prop.count(1);
+				});
 
 		Rio.write(builder.getModelBuilder().build(), System.out, RDFFormat.TURTLE);
 	}

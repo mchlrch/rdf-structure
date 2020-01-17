@@ -1,18 +1,20 @@
 package ch.miranet.rdfstructure;
 
+import org.eclipse.rdf4j.model.IRI;
+
 public class RdfProperty {
 
-	protected final String prefixedNameOrIri;
+	protected final IRI iri;
 
-	public RdfProperty(String prefixedNameOrIri) {
-		this.prefixedNameOrIri = prefixedNameOrIri;
+	public RdfProperty(IRI iri) {
+		this.iri = iri;
 	}
 
-	public void label(String label) {
+	public RdfProperty label(String label) {
 		throw new UnimplementedFeatureException();
 	}
 
-	public void subPropertyOf(RdfProperty property) {
+	public RdfProperty subPropertyOf(RdfProperty property) {
 		throw new UnimplementedFeatureException();
 	}
 

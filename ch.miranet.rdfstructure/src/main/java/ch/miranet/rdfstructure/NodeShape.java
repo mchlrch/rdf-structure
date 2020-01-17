@@ -1,33 +1,52 @@
 package ch.miranet.rdfstructure;
 
+import java.util.function.Consumer;
+
 import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
 
 public class NodeShape {
 
 	protected final RdfStructureBuilder b;
-	protected final String prefixedNameOrIri;
+	protected final IRI iri;
 
-	public NodeShape(RdfStructureBuilder structBuilder, String prefixedNameOrIri) {
+	public NodeShape(RdfStructureBuilder structBuilder, IRI iri) {
 		this.b = structBuilder;
-		this.prefixedNameOrIri = prefixedNameOrIri;
+		this.iri = iri;
 	}
 
 	public NodeShape targetClass(RdfsClass targetClass) {
-		return targetClass(targetClass.prefixedNameOrIri);
+		return targetClass(targetClass.iri);
 	}
 
 	public NodeShape targetClass(String targetClassPrefixedNameOrIri) {
-		this.b.modelBuilder.subject(this.prefixedNameOrIri)
-				.add(SHACL.TARGET_CLASS, targetClassPrefixedNameOrIri);
+		return targetClass(this.b.mapToIRI(targetClassPrefixedNameOrIri));
+	}
+
+	public NodeShape targetClass(IRI targetClassIri) {
+		this.b.modelBuilder.subject(this.iri)
+				.add(SHACL.TARGET_CLASS, targetClassIri);
 
 		return this;
 	}
 
-	public PropertyShape property(String propertyPrefixedNameOrIri) {
+	public NodeShape property(String propertyPrefixedNameOrIri, Consumer<PropertyShape> propertyShapeConsumer) {
+		final PropertyShape propertyShape = property0(propertyPrefixedNameOrIri);
+
+		propertyShapeConsumer.accept(propertyShape);
+		return this;
+	}
+
+	public NodeShape property(String propertyPrefixedNameOrIri) {
+		property0(propertyPrefixedNameOrIri);
+		return this;
+	}
+
+	protected PropertyShape property0(String propertyPrefixedNameOrIri) {
 		final BNode propertyShapeBNode = this.b.valueFactory.createBNode();
 
-		this.b.modelBuilder.subject(this.prefixedNameOrIri)
+		this.b.modelBuilder.subject(this.iri)
 				.add(SHACL.PROPERTY, propertyShapeBNode);
 
 		this.b.modelBuilder.subject(propertyShapeBNode)
@@ -36,7 +55,7 @@ public class NodeShape {
 		return new PropertyShape(this.b, propertyShapeBNode);
 	}
 
-	public PropertyShape property(RdfProperty property) {
+	public NodeShape property(RdfProperty property) {
 		throw new UnimplementedFeatureException();
 	}
 
