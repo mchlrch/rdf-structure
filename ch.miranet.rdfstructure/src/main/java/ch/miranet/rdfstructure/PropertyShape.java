@@ -32,7 +32,10 @@ public class PropertyShape {
 	}
 
 	public PropertyShape shClass(String prefixedNameOrIri) {
-		throw new UnimplementedFeatureException();
+		this.b.modelBuilder.subject(this.propertyShapeResource)
+				.add(SHACL.CLASS, prefixedNameOrIri);
+
+		return this;
 	}
 
 }
