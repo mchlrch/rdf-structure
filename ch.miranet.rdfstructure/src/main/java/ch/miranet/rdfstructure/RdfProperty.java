@@ -1,21 +1,26 @@
 package ch.miranet.rdfstructure;
 
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
 
-public class RdfProperty {
+public class RdfProperty extends StructuralElement<IRI> {
 
-	protected final IRI iri;
-
-	public RdfProperty(IRI iri) {
-		this.iri = iri;
+	public RdfProperty(RdfStructureBuilder structBuilder, IRI iri) {
+		super(structBuilder, iri);
 	}
 
 	public RdfProperty label(String label) {
-		throw new UnimplementedFeatureException();
+		this.b.modelBuilder.subject(this.resource)
+				.add(RDFS.LABEL, label);
+
+		return this;
 	}
 
 	public RdfProperty subPropertyOf(RdfProperty property) {
-		throw new UnimplementedFeatureException();
+		this.b.modelBuilder.subject(this.resource)
+				.add(RDFS.SUBPROPERTYOF, property.resource);
+
+		return this;
 	}
 
 }

@@ -52,7 +52,7 @@ public class RdfStructureBuilder {
 		modelBuilder.subject(iri)
 				.add(RDF.TYPE, RDFS.CLASS);
 
-		return new RdfsClass(iri);
+		return new RdfsClass(this, iri);
 	}
 
 	public RdfProperty rdfProperty(String prefixedNameOrIri) {
@@ -63,7 +63,7 @@ public class RdfStructureBuilder {
 		modelBuilder.subject(iri)
 				.add(RDF.TYPE, RDF.PROPERTY);
 
-		return new RdfProperty(iri);
+		return new RdfProperty(this, iri);
 	}
 
 	public NodeShape nodeShape(String prefixedNameOrIri) {
