@@ -9,16 +9,24 @@ public class RdfProperty extends StructuralElement<IRI> {
 		super(structBuilder, iri);
 	}
 
-	public RdfProperty label(String label) {
+	public RdfProperty subPropertyOf(RdfProperty property) {
+		return subPropertyOf(property.resource);
+	}
+
+	public RdfProperty subPropertyOf(String propertyPrefixedNameOrIri) {
+		return subPropertyOf(this.b.mapToIRI(propertyPrefixedNameOrIri));
+	}
+
+	public RdfProperty subPropertyOf(IRI property) {
 		this.b.modelBuilder.subject(this.resource)
-				.add(RDFS.LABEL, label);
+				.add(RDFS.SUBPROPERTYOF, property);
 
 		return this;
 	}
 
-	public RdfProperty subPropertyOf(RdfProperty property) {
+	public RdfProperty label(String label) {
 		this.b.modelBuilder.subject(this.resource)
-				.add(RDFS.SUBPROPERTYOF, property.resource);
+				.add(RDFS.LABEL, label);
 
 		return this;
 	}

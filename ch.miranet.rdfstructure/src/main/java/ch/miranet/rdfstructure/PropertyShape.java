@@ -1,5 +1,6 @@
 package ch.miranet.rdfstructure;
 
+import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
 
@@ -27,14 +28,17 @@ public class PropertyShape extends StructuralElement<Resource> {
 		return minCount(count).maxCount(count);
 	}
 
-//	public PropertyShape shClass(IRI iri) {
-	
-//	public PropertyShape shClass(RdfsClass cls) {
-	
-	
+	public PropertyShape shClass(RdfsClass cls) {
+		return shClass(cls.resource);
+	}
+
 	public PropertyShape shClass(String prefixedNameOrIri) {
+		return shClass(this.b.mapToIRI(prefixedNameOrIri));
+	}
+
+	public PropertyShape shClass(IRI iri) {
 		this.b.modelBuilder.subject(this.resource)
-				.add(SHACL.CLASS, prefixedNameOrIri);
+				.add(SHACL.CLASS, iri);
 
 		return this;
 	}

@@ -10,8 +10,16 @@ public class RdfsClass extends StructuralElement<IRI> {
 	}
 
 	public RdfsClass subClassOf(RdfsClass superclass) {
+		return subClassOf(superclass.resource);
+	}
+
+	public RdfsClass subClassOf(String superclassPrefixedNameOrIri) {
+		return subClassOf(this.b.mapToIRI(superclassPrefixedNameOrIri));
+	}
+
+	public RdfsClass subClassOf(IRI superclass) {
 		this.b.modelBuilder.subject(this.resource)
-				.add(RDFS.SUBCLASSOF, superclass.resource);
+				.add(RDFS.SUBCLASSOF, superclass);
 
 		return this;
 	}

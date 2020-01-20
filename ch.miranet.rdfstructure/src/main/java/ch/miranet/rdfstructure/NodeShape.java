@@ -27,36 +27,45 @@ public class NodeShape extends StructuralElement<IRI> {
 		return this;
 	}
 
-//	public NodeShape property(IRI propertyIri, Consumer<PropertyShape> propertyShapeConsumer) {
-	
-	public NodeShape property(String propertyPrefixedNameOrIri, Consumer<PropertyShape> propertyShapeConsumer) {
-		final PropertyShape propertyShape = property0(propertyPrefixedNameOrIri);
+	public NodeShape property(RdfProperty property, Consumer<PropertyShape> propertyShapeConsumer) {
+		return property(property.resource, propertyShapeConsumer);
+	}
 
+	public NodeShape property(String propertyPrefixedNameOrIri, Consumer<PropertyShape> propertyShapeConsumer) {
+		return property(this.b.mapToIRI(propertyPrefixedNameOrIri), propertyShapeConsumer);
+	}
+
+	public NodeShape property(IRI propertyIri, Consumer<PropertyShape> propertyShapeConsumer) {
+		final PropertyShape propertyShape = property0(propertyIri);
 		propertyShapeConsumer.accept(propertyShape);
 		return this;
 	}
 
-//	public NodeShape property(String propertyIri) {
-	
-	public NodeShape property(String propertyPrefixedNameOrIri) {
-		property0(propertyPrefixedNameOrIri);
+	public NodeShape property(RdfProperty property) {
+		property0(property.resource);
 		return this;
 	}
 
-	protected PropertyShape property0(String propertyPrefixedNameOrIri) {
+	public NodeShape property(String propertyPrefixedNameOrIri) {
+		property0(this.b.mapToIRI(propertyPrefixedNameOrIri));
+		return this;
+	}
+
+	public NodeShape property(IRI propertyIri) {
+		property0(propertyIri);
+		return this;
+	}
+
+	protected PropertyShape property0(IRI propertyIri) {
 		final BNode propertyShapeBNode = this.b.valueFactory.createBNode();
 
 		this.b.modelBuilder.subject(this.resource)
 				.add(SHACL.PROPERTY, propertyShapeBNode);
 
 		this.b.modelBuilder.subject(propertyShapeBNode)
-				.add(SHACL.PATH, propertyPrefixedNameOrIri);
+				.add(SHACL.PATH, propertyIri);
 
 		return new PropertyShape(this.b, propertyShapeBNode);
-	}
-
-	public NodeShape property(RdfProperty property) {
-		throw new UnimplementedFeatureException();
 	}
 
 	public NodeShape deactivated(boolean b) {
