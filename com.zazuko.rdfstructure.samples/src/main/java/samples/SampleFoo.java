@@ -3,9 +3,9 @@ package samples;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.Rio;
 
-import ch.miranet.rdfstructure.RdfProperty;
-import ch.miranet.rdfstructure.RdfStructureBuilder;
-import ch.miranet.rdfstructure.RdfsClass;
+import com.zazuko.rdfstructure.RdfProperty;
+import com.zazuko.rdfstructure.RdfStructureBuilder;
+import com.zazuko.rdfstructure.RdfsClass;
 
 public class SampleFoo {
 

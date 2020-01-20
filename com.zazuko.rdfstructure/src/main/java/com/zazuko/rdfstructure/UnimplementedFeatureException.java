@@ -1,4 +1,4 @@
-package ch.miranet.rdfstructure;
+package com.zazuko.rdfstructure;
 
 public class UnimplementedFeatureException extends RuntimeException {
 

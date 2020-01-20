@@ -1,4 +1,4 @@
-package ch.miranet.rdfstructure;
+package com.zazuko.rdfstructure;
 
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;

@@ -1,4 +1,4 @@
-package ch.miranet.rdfstructure;
+package com.zazuko.rdfstructure;
 
 import java.util.function.Consumer;
 

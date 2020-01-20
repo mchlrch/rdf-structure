@@ -4,7 +4,7 @@ import org.eclipse.rdf4j.model.vocabulary.SKOS;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.Rio;
 
-import ch.miranet.rdfstructure.RdfStructureBuilder;
+import com.zazuko.rdfstructure.RdfStructureBuilder;
 
 public class SampleSectorShape {
 
