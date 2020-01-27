@@ -21,6 +21,7 @@ public class SampleSectorShape {
 					prop.count(1);
 				});
 
+		System.setProperty("org.eclipse.rdf4j.rio.inline_blank_nodes", Boolean.TRUE.toString());
 		Rio.write(builder.getModelBuilder().build(), System.out, RDFFormat.TURTLE);
 	}
 

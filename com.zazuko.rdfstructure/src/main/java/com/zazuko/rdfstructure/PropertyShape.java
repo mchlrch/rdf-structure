@@ -1,7 +1,10 @@
 package com.zazuko.rdfstructure;
 
+import java.util.function.BiConsumer;
+
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.util.ModelBuilder;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
 
 public class PropertyShape extends StructuralElement<Resource> {
@@ -43,4 +46,8 @@ public class PropertyShape extends StructuralElement<Resource> {
 		return this;
 	}
 
+	public PropertyShape any(BiConsumer<ModelBuilder, Resource> consumer) {
+		super.any(consumer);
+		return this;
+	}
 }

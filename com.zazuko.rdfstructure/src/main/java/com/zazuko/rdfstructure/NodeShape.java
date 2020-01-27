@@ -1,9 +1,11 @@
 package com.zazuko.rdfstructure;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.util.ModelBuilder;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
 
 public class NodeShape extends StructuralElement<IRI> {
@@ -80,4 +82,8 @@ public class NodeShape extends StructuralElement<IRI> {
 		throw new UnimplementedFeatureException();
 	}
 
+	public NodeShape any(BiConsumer<ModelBuilder, IRI> consumer) {
+		super.any(consumer);
+		return this;
+	}
 }

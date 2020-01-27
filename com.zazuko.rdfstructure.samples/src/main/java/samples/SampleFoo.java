@@ -1,5 +1,6 @@
 package samples;
 
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.Rio;
 
@@ -14,6 +15,7 @@ public class SampleFoo {
 
 		builder.getModelBuilder()
 				.setNamespace(EX.NS)
+				.setNamespace(RDFS.NS)
 				.setNamespace("schema", "http://schema.org/");
 
 		final RdfsClass foo = builder.rdfsClass(EX.Foo)
@@ -39,9 +41,17 @@ public class SampleFoo {
 				.targetClass(foo)
 				.property(EX.property1, prop -> {
 					prop.count(1)
-							.shClass("ex:NewFoo");
+							.shClass("ex:NewFoo")
+							.any((modelBuilder, element) -> {
+								modelBuilder.subject(element).add(RDFS.COMMENT,
+										"Some comment about FooShape#property1");
+							});
+				})
+				.any((modelBuilder, element) -> {
+					modelBuilder.subject(element).add(RDFS.COMMENT, "Some comment about FooShape");
 				});
 
+		System.setProperty("org.eclipse.rdf4j.rio.inline_blank_nodes", Boolean.TRUE.toString());
 		Rio.write(builder.getModelBuilder().build(), System.out, RDFFormat.TURTLE);
 	}
 

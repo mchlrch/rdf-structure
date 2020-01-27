@@ -1,6 +1,9 @@
 package com.zazuko.rdfstructure;
 
+import java.util.function.BiConsumer;
+
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.util.ModelBuilder;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 
 public class RdfProperty extends StructuralElement<IRI> {
@@ -31,4 +34,8 @@ public class RdfProperty extends StructuralElement<IRI> {
 		return this;
 	}
 
+	public RdfProperty any(BiConsumer<ModelBuilder, IRI> consumer) {
+		super.any(consumer);
+		return this;
+	}
 }
