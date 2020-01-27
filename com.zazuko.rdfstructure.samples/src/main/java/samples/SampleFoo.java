@@ -41,7 +41,7 @@ public class SampleFoo {
 				.targetClass(foo)
 				.property(EX.property1, prop -> {
 					prop.count(1)
-							.shClass("ex:NewFoo")
+							.clazz("ex:NewFoo")
 							.any((modelBuilder, element) -> {
 								modelBuilder.subject(element).add(RDFS.COMMENT,
 										"Some comment about FooShape#property1");

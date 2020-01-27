@@ -31,15 +31,15 @@ public class PropertyShape extends StructuralElement<Resource> {
 		return minCount(count).maxCount(count);
 	}
 
-	public PropertyShape shClass(RdfsClass cls) {
-		return shClass(cls.resource);
+	public PropertyShape clazz(RdfsClass cls) {
+		return clazz(cls.resource);
 	}
 
-	public PropertyShape shClass(String prefixedNameOrIri) {
-		return shClass(this.b.mapToIRI(prefixedNameOrIri));
+	public PropertyShape clazz(String prefixedNameOrIri) {
+		return clazz(this.b.mapToIRI(prefixedNameOrIri));
 	}
 
-	public PropertyShape shClass(IRI iri) {
+	public PropertyShape clazz(IRI iri) {
 		this.b.modelBuilder.subject(this.resource)
 				.add(SHACL.CLASS, iri);
 
