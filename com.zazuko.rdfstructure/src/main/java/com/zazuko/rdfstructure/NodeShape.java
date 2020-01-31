@@ -14,14 +14,17 @@ public class NodeShape extends StructuralElement<IRI> {
 		super(structBuilder, iri);
 	}
 
+	/** sh:targetClass */
 	public NodeShape targetClass(RdfsClass targetClass) {
 		return targetClass(targetClass.resource);
 	}
 
+	/** sh:targetClass */
 	public NodeShape targetClass(String targetClassPrefixedNameOrIri) {
 		return targetClass(this.b.mapToIRI(targetClassPrefixedNameOrIri));
 	}
 
+	/** sh:targetClass */
 	public NodeShape targetClass(IRI targetClassIri) {
 		this.b.modelBuilder.subject(this.resource)
 				.add(SHACL.TARGET_CLASS, targetClassIri);
@@ -29,30 +32,36 @@ public class NodeShape extends StructuralElement<IRI> {
 		return this;
 	}
 
+	/** sh:property */
 	public NodeShape property(RdfProperty property, Consumer<PropertyShape> propertyShapeConsumer) {
 		return property(property.resource, propertyShapeConsumer);
 	}
 
+	/** sh:property */
 	public NodeShape property(String propertyPrefixedNameOrIri, Consumer<PropertyShape> propertyShapeConsumer) {
 		return property(this.b.mapToIRI(propertyPrefixedNameOrIri), propertyShapeConsumer);
 	}
 
+	/** sh:property */
 	public NodeShape property(IRI propertyIri, Consumer<PropertyShape> propertyShapeConsumer) {
 		final PropertyShape propertyShape = property0(propertyIri);
 		propertyShapeConsumer.accept(propertyShape);
 		return this;
 	}
 
+	/** sh:property */
 	public NodeShape property(RdfProperty property) {
 		property0(property.resource);
 		return this;
 	}
 
+	/** sh:property */
 	public NodeShape property(String propertyPrefixedNameOrIri) {
 		property0(this.b.mapToIRI(propertyPrefixedNameOrIri));
 		return this;
 	}
 
+	/** sh:property */
 	public NodeShape property(IRI propertyIri) {
 		property0(propertyIri);
 		return this;

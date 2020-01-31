@@ -13,6 +13,7 @@ public class PropertyShape extends StructuralElement<Resource> {
 		super(structBuilder, propertyShapeResource);
 	}
 
+	/** sh:minCount */
 	public PropertyShape minCount(int count) {
 		this.b.modelBuilder.subject(this.resource)
 				.add(SHACL.MIN_COUNT, count);
@@ -20,6 +21,7 @@ public class PropertyShape extends StructuralElement<Resource> {
 		return this;
 	}
 
+	/** sh:maxCount */
 	public PropertyShape maxCount(int count) {
 		this.b.modelBuilder.subject(this.resource)
 				.add(SHACL.MAX_COUNT, count);
@@ -27,18 +29,22 @@ public class PropertyShape extends StructuralElement<Resource> {
 		return this;
 	}
 
+	/** sh:minCount <br/> sh:maxCount */
 	public PropertyShape count(int count) {
 		return minCount(count).maxCount(count);
 	}
 
+	/** sh:class */
 	public PropertyShape clazz(RdfsClass cls) {
 		return clazz(cls.resource);
 	}
 
+	/** sh:class */
 	public PropertyShape clazz(String prefixedNameOrIri) {
 		return clazz(this.b.mapToIRI(prefixedNameOrIri));
 	}
 
+	/** sh:class */
 	public PropertyShape clazz(IRI iri) {
 		this.b.modelBuilder.subject(this.resource)
 				.add(SHACL.CLASS, iri);

@@ -44,10 +44,12 @@ public class RdfStructureBuilder {
 		return valueFactory;
 	}
 
+	/** rdfs:Class */
 	public RdfsClass rdfsClass(String prefixedNameOrIri) {
 		return rdfsClass(mapToIRI(prefixedNameOrIri));
 	}
 
+	/** rdfs:Class */
 	public RdfsClass rdfsClass(IRI iri) {
 		modelBuilder.subject(iri)
 				.add(RDF.TYPE, RDFS.CLASS);
@@ -55,10 +57,12 @@ public class RdfStructureBuilder {
 		return new RdfsClass(this, iri);
 	}
 
+	/** rdf:Property */
 	public RdfProperty rdfProperty(String prefixedNameOrIri) {
 		return rdfProperty(mapToIRI(prefixedNameOrIri));
 	}
 
+	/** rdf:Property */
 	public RdfProperty rdfProperty(IRI iri) {
 		modelBuilder.subject(iri)
 				.add(RDF.TYPE, RDF.PROPERTY);
@@ -66,10 +70,12 @@ public class RdfStructureBuilder {
 		return new RdfProperty(this, iri);
 	}
 
+	/** sh:NodeShape */
 	public NodeShape nodeShape(String prefixedNameOrIri) {
 		return nodeShape(mapToIRI(prefixedNameOrIri));
 	}
 
+	/** sh:NodeShape */
 	public NodeShape nodeShape(IRI iri) {
 		modelBuilder.subject(iri)
 				.add(RDF.TYPE, SHACL.NODE_SHAPE);
