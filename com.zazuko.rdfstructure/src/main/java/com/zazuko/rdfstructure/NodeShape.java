@@ -6,12 +6,29 @@ import java.util.function.Consumer;
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.util.ModelBuilder;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
 
 public class NodeShape extends StructuralElement<IRI> {
 
 	public NodeShape(RdfStructureBuilder structBuilder, IRI iri) {
 		super(structBuilder, iri);
+	}
+	
+	/** rdfs:label */
+	public NodeShape label(String label) {
+		this.b.modelBuilder.subject(this.resource)
+				.add(RDFS.LABEL, label);
+
+		return this;
+	}
+	
+	/** rdfs:comment */
+	public NodeShape comment(String comment) {
+		this.b.modelBuilder.subject(this.resource)
+				.add(RDFS.COMMENT, comment);
+
+		return this;
 	}
 
 	/** sh:targetClass */

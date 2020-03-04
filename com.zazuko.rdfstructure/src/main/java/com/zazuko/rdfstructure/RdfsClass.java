@@ -37,6 +37,14 @@ public class RdfsClass extends StructuralElement<IRI> {
 
 		return this;
 	}
+	
+	/** rdfs:comment */
+	public RdfsClass comment(String comment) {
+		this.b.modelBuilder.subject(this.resource)
+				.add(RDFS.COMMENT, comment);
+
+		return this;
+	}
 
 	public RdfsClass any(BiConsumer<ModelBuilder, IRI> consumer) {
 		super.any(consumer);

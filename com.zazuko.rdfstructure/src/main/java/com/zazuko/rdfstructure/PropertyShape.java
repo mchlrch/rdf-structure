@@ -5,12 +5,29 @@ import java.util.function.BiConsumer;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.util.ModelBuilder;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
 
 public class PropertyShape extends StructuralElement<Resource> {
 
 	public PropertyShape(RdfStructureBuilder structBuilder, Resource propertyShapeResource) {
 		super(structBuilder, propertyShapeResource);
+	}
+	
+	/** rdfs:label */
+	public PropertyShape label(String label) {
+		this.b.modelBuilder.subject(this.resource)
+				.add(RDFS.LABEL, label);
+
+		return this;
+	}
+	
+	/** rdfs:comment */
+	public PropertyShape comment(String comment) {
+		this.b.modelBuilder.subject(this.resource)
+				.add(RDFS.COMMENT, comment);
+
+		return this;
 	}
 
 	/** sh:minCount */
