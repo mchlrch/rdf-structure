@@ -1,11 +1,15 @@
 package com.zazuko.rdfstructure;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.util.ModelBuilder;
+import org.eclipse.rdf4j.model.util.RDFCollections;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
 
@@ -14,7 +18,7 @@ public class NodeShape extends StructuralElement<IRI> {
 	public NodeShape(RdfStructureBuilder structBuilder, IRI iri) {
 		super(structBuilder, iri);
 	}
-	
+
 	/** rdfs:label */
 	public NodeShape label(String label) {
 		this.b.modelBuilder.subject(this.resource)
@@ -22,7 +26,7 @@ public class NodeShape extends StructuralElement<IRI> {
 
 		return this;
 	}
-	
+
 	/** rdfs:comment */
 	public NodeShape comment(String comment) {
 		this.b.modelBuilder.subject(this.resource)
@@ -96,16 +100,66 @@ public class NodeShape extends StructuralElement<IRI> {
 		return new PropertyShape(this.b, propertyShapeBNode);
 	}
 
-	public NodeShape deactivated(boolean b) {
-		throw new UnimplementedFeatureException();
+	/** sh:deactivated */
+	public NodeShape deactivated(boolean yesOrNo) {
+		this.b.modelBuilder.subject(this.resource)
+				.add(SHACL.DEACTIVATED, yesOrNo);
+
+		return this;
 	}
 
-	public NodeShape closed(boolean b) {
-		throw new UnimplementedFeatureException();
+	/** sh:closed */
+	public NodeShape closed(boolean yesOrNo) {
+		this.b.modelBuilder.subject(this.resource)
+				.add(SHACL.CLOSED, yesOrNo);
+
+		return this;
 	}
 
-	public NodeShape ignoredProperties(String string) {
-		throw new UnimplementedFeatureException();
+	/** sh:ignoredProperties */
+	public NodeShape ignoredProperties(RdfProperty property, RdfProperty... moreProperties) {
+		final RdfProperty[] in = new RdfProperty[moreProperties.length + 1];
+		in[0] = property;
+		System.arraycopy(moreProperties, 0, in, 1, moreProperties.length);
+
+		final List<IRI> ignoredProperties = Arrays.asList(in).stream()
+				.map(RdfProperty::getResource)
+				.collect(Collectors.toList());
+
+		return ignoredProperties(ignoredProperties);
+	}
+
+	/** sh:ignoredProperties */
+	public NodeShape ignoredProperties(String propertyPrefixedNameOrIri, String... morePropertyPrefixedNamesOrIris) {
+		final String[] in = new String[morePropertyPrefixedNamesOrIris.length + 1];
+		in[0] = propertyPrefixedNameOrIri;
+		System.arraycopy(morePropertyPrefixedNamesOrIris, 0, in, 1, morePropertyPrefixedNamesOrIris.length);
+
+		final List<IRI> ignoredProperties = Arrays.asList(in).stream()
+				.map(this.b::mapToIRI)
+				.collect(Collectors.toList());
+
+		return ignoredProperties(ignoredProperties);
+	}
+
+	/** sh:ignoredProperties */
+	public NodeShape ignoredProperties(IRI propertyIri, IRI... morePropertyIris) {
+		final IRI[] in = new IRI[morePropertyIris.length + 1];
+		in[0] = propertyIri;
+		System.arraycopy(morePropertyIris, 0, in, 1, morePropertyIris.length);
+
+		return ignoredProperties(Arrays.asList(in));
+	}
+
+	/** sh:ignoredProperties */
+	public NodeShape ignoredProperties(Iterable<IRI> propertyIris) {
+		final BNode listHead = this.b.valueFactory.createBNode();
+		RDFCollections.asRDF(propertyIris, listHead, this.b.model);
+
+		this.b.modelBuilder.subject(this.resource)
+				.add(SHACL.IGNORED_PROPERTIES, listHead);
+
+		return this;
 	}
 
 	public NodeShape any(BiConsumer<ModelBuilder, IRI> consumer) {

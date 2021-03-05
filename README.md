@@ -1,54 +1,101 @@
 # rdf-structure
 
-A Java DSL for ontological and structural definitions. `rdf:Property`, `rdfs:Class`, `sh:NodeShape`, ...
+`rdf-structure` is a fluent builder API for creating structural definitions using RDF Schema and SHACL. It is built ontop of [RDF4J ModelBuilder](https://rdf4j.org/javadoc/latest/org/eclipse/rdf4j/model/util/ModelBuilder.html)
+
+
+## Example
 
 Definition (input): 
 
 ```
-final RdfsClass foo = builder.rdfsClass("ex:Foo")
-	.subClassOf("schema:Thing")
-	.label("Foo");
+final RdfsClass pizza = builder.rdfsClass("ex:Pizza")
+		.subClassOf("ex:Flatbread")
+		.label("Pizza")
+		.comment("Pizza is a savory dish of Italian origin");
 
-final RdfProperty property1 = builder.rdfProperty("ex:property1")
-	.subPropertyOf("schema:interactionType")
-	.label("property1");
+final RdfProperty dough = builder.rdfProperty("ex:dough")
+		.label("Dough");
 
-builder.nodeShape("ex:FooShape")
-	.targetClass(foo)
-	.property(property1, prop -> {
-		prop.count(1)
-			.clazz("skos:Concept");
-	});
+final RdfProperty sauce = builder.rdfProperty("ex:sauce")
+		.label("Sauce");
+
+final RdfProperty cheese = builder.rdfProperty("ex:cheese")
+		.label("Cheese");
+
+final RdfProperty topping = builder.rdfProperty("ex:topping")
+		.label("Topping");
+
+final NodeShape pizzaShape = builder.nodeShape("ex:PizzaShape")
+		.targetClass(pizza)
+		.property(dough, propertyShape -> {
+			propertyShape
+					.count(1)
+					.clazz("ex:Dough");
+
+		})
+		.property(sauce, propertyShape -> {
+			propertyShape.comment("usually tomato sauce");
+		})
+		.property(cheese)
+		.property(topping);
 ```
 
 Turtle (output):
 
 ```
-@prefix ex: <http://example.org/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix schema: <http://schema.org/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix ex: <http://schema.example.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex:Foo a rdfs:Class;
-  rdfs:label "Foo";
-  rdfs:subClassOf schema:Thing .
+ex:Pizza a rdfs:Class;
+  rdfs:subClassOf ex:Flatbread;
+  rdfs:label "Pizza";
+  rdfs:comment "Pizza is a savory dish of Italian origin" .
 
-ex:property1 a rdf:Property;
-  rdfs:label "property1";
-  rdfs:subPropertyOf schema:interactionType .
+ex:dough a rdf:Property;
+  rdfs:label "Dough" .
 
-ex:FooShape a sh:NodeShape;
+ex:sauce a rdf:Property;
+  rdfs:label "Sauce" .
+
+ex:cheese a rdf:Property;
+  rdfs:label "Cheese" .
+
+ex:topping a rdf:Property;
+  rdfs:label "Topping" .
+
+ex:PizzaShape a sh:NodeShape;
+  sh:targetClass ex:Pizza;
   sh:property [
-      sh:class skos:Concept;
-      sh:maxCount "1"^^xsd:int;
+      sh:path ex:dough;
       sh:minCount "1"^^xsd:int;
-      sh:path ex:property1
-    ];
-  sh:targetClass ex:Foo .
+      sh:maxCount "1"^^xsd:int;
+      sh:class ex:Dough
+    ], [
+      sh:path ex:sauce;
+      rdfs:comment "usually tomato sauce"
+    ], [
+      sh:path ex:cheese
+    ], [
+      sh:path ex:topping
+    ] .
 ```
 
-See the [complete example](com.zazuko.rdfstructure.samples/src/main/java/samples/SampleFooSimple.java)
+See the [complete example](com.zazuko.rdfstructure.samples/src/main/java/samples/PizzaSample.java)
 
+
+## Limitations and Breakouts
+
+Only a subset of what can be expressed with RDF Schema and SHACL is made available directly in this builder.
+
+In order make it possible to fill the gaps and describe whatever you want, there are several ways of breaking out from the `rdf-structure` builder and using the underlying [RDF4J ModelBuilder](https://rdf4j.org/javadoc/latest/org/eclipse/rdf4j/model/util/ModelBuilder.html) directly.
+
+## Usage
+
+Maven dependency for using the latest version:
+
+```
+todo
+```
