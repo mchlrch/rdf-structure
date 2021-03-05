@@ -83,7 +83,7 @@ ex:PizzaShape a sh:NodeShape;
     ] .
 ```
 
-See the [complete example](com.zazuko.rdfstructure.samples/src/main/java/samples/PizzaSample.java)
+See the [complete example](ch.miranet.rdfstructure.samples/src/main/java/samples/PizzaSample.java)
 
 
 ## Limitations and Breakouts
