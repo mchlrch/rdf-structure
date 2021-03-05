@@ -90,12 +90,48 @@ See the [complete example](com.zazuko.rdfstructure.samples/src/main/java/samples
 
 Only a subset of what can be expressed with RDF Schema and SHACL is made available directly in this builder.
 
-In order make it possible to fill the gaps and describe whatever you want, there are several ways of breaking out from the `rdf-structure` builder and using the underlying [RDF4J ModelBuilder](https://rdf4j.org/javadoc/latest/org/eclipse/rdf4j/model/util/ModelBuilder.html) directly.
+To fill in the gaps and describe whatever you want, there are several ways of breaking out from the `rdf-structure` builder and using the underlying [RDF4J ModelBuilder](https://rdf4j.org/javadoc/latest/org/eclipse/rdf4j/model/util/ModelBuilder.html) directly.
 
 ## Usage
 
 Maven dependency for using the latest version:
 
 ```
-todo
+<dependency>
+	<groupId>ch.miranet.rdfstructure</groupId>
+	<artifactId>rdf-structure</artifactId>
+	<version>1.0.0</version>
+</dependency>
 ```
+
+If you don't have them declared yet, you most likely also want to include the dependencies for RDF4J in your project:
+
+```
+<dependencies>
+	<dependency>
+		<groupId>ch.miranet.rdfstructure</groupId>
+		<artifactId>rdf-structure</artifactId>
+		<version>1.0.0</version>
+	</dependency>
+	<dependency>
+		<groupId>org.eclipse.rdf4j</groupId>
+		<artifactId>rdf4j-model</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.eclipse.rdf4j</groupId>
+		<artifactId>rdf4j-rio-turtle</artifactId>
+	</dependency>
+</dependencies>
+
+<dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.rdf4j</groupId>
+			<artifactId>rdf4j-bom</artifactId>
+			<version>3.6.0</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+	</dependencies>
+</dependencyManagement>
+``` 
