@@ -1,5 +1,7 @@
 # rdf-structure
 
+[![Maven Central](https://img.shields.io/maven-central/v/ch.miranet.rdfstructure/rdf-structure.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22ch.miranet.rdfstructure%22%20AND%20a:%22rdf-structure%22)
+
 `rdf-structure` is a fluent builder API for creating structural definitions using RDF Schema and SHACL. It is built ontop of [RDF4J ModelBuilder](https://rdf4j.org/javadoc/latest/org/eclipse/rdf4j/model/util/ModelBuilder.html)
 
 
@@ -83,7 +85,7 @@ ex:PizzaShape a sh:NodeShape;
     ] .
 ```
 
-See the [complete example](com.zazuko.rdfstructure.samples/src/main/java/samples/PizzaSample.java)
+See the [complete example](ch.miranet.rdfstructure.samples/src/main/java/samples/PizzaSample.java)
 
 
 ## Limitations and Breakouts
