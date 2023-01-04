@@ -1,6 +1,5 @@
 package ch.miranet.rdfstructure;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.rdf4j.model.BNode;
@@ -13,6 +12,7 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
 import org.eclipse.rdf4j.model.vocabulary.SKOS;
+import org.eclipse.rdf4j.model.vocabulary.XSD;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,9 +27,11 @@ public class PropertyShapeTest {
 
 		refModelBuilder = new ModelBuilder();
 		refModelBuilder.setNamespace(nsEx);
+		refModelBuilder.setNamespace(XSD.NS);
 
 		builder = new RdfStructureBuilder();
 		builder.getModelBuilder().setNamespace(nsEx);
+		builder.getModelBuilder().setNamespace(XSD.NS);
 	}
 
 	@Test
@@ -61,7 +63,8 @@ public class PropertyShapeTest {
 							.any((modelBuilder, element) -> modelBuilder.subject(element)
 									.add(SKOS.HIDDEN_LABEL, "Hidden label on my property shape"))
 							.count(42)
-							.clazz("ex:MyClass");
+							.clazz("ex:MyClass")
+							.datatype("xsd:string");
 				});
 
 		final BNode propertyShapeBNode = builder.valueFactory.createBNode();
@@ -77,7 +80,8 @@ public class PropertyShapeTest {
 				.add(SKOS.HIDDEN_LABEL, "Hidden label on my property shape")
 				.add(SHACL.MIN_COUNT, 42)
 				.add(SHACL.MAX_COUNT, 42)
-				.add(SHACL.CLASS, "ex:MyClass");
+				.add(SHACL.CLASS, "ex:MyClass")
+				.add(SHACL.DATATYPE, "xsd:string");
 
 		final Model refModel = refModelBuilder.build();
 

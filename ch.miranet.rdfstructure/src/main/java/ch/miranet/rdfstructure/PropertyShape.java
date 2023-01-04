@@ -13,7 +13,7 @@ public class PropertyShape extends StructuralElement<Resource> {
 	public PropertyShape(RdfStructureBuilder structBuilder, Resource propertyShapeResource) {
 		super(structBuilder, propertyShapeResource);
 	}
-	
+
 	/** rdfs:label */
 	public PropertyShape label(String label) {
 		this.b.modelBuilder.subject(this.resource)
@@ -21,7 +21,7 @@ public class PropertyShape extends StructuralElement<Resource> {
 
 		return this;
 	}
-	
+
 	/** rdfs:comment */
 	public PropertyShape comment(String comment) {
 		this.b.modelBuilder.subject(this.resource)
@@ -46,7 +46,10 @@ public class PropertyShape extends StructuralElement<Resource> {
 		return this;
 	}
 
-	/** sh:minCount <br/> sh:maxCount */
+	/**
+	 * sh:minCount <br/>
+	 * sh:maxCount
+	 */
 	public PropertyShape count(int count) {
 		return minCount(count).maxCount(count);
 	}
@@ -65,6 +68,24 @@ public class PropertyShape extends StructuralElement<Resource> {
 	public PropertyShape clazz(IRI iri) {
 		this.b.modelBuilder.subject(this.resource)
 				.add(SHACL.CLASS, iri);
+
+		return this;
+	}
+
+	/** sh:datatype */
+	public PropertyShape datatype(RdfsClass cls) {
+		return datatype(cls.resource);
+	}
+
+	/** sh:datatype */
+	public PropertyShape datatype(String prefixedNameOrIri) {
+		return datatype(this.b.mapToIRI(prefixedNameOrIri));
+	}
+
+	/** sh:datatype */
+	public PropertyShape datatype(IRI iri) {
+		this.b.modelBuilder.subject(this.resource)
+				.add(SHACL.DATATYPE, iri);
 
 		return this;
 	}
