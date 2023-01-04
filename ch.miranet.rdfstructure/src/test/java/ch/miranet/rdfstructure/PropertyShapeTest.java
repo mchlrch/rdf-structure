@@ -1,12 +1,14 @@
 package ch.miranet.rdfstructure;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Namespace;
 import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 import org.eclipse.rdf4j.model.util.ModelBuilder;
+import org.eclipse.rdf4j.model.util.Models;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
@@ -46,7 +48,7 @@ public class PropertyShapeTest {
 
 		final Model refModel = refModelBuilder.build();
 
-		assertEquals(refModel, builder.modelBuilder.build());
+		assertTrue(Models.isomorphic(refModel, builder.modelBuilder.build()), "models are not isomorphic");
 	}
 
 	@Test
@@ -79,7 +81,7 @@ public class PropertyShapeTest {
 
 		final Model refModel = refModelBuilder.build();
 
-		assertEquals(refModel, builder.modelBuilder.build());
+		assertTrue(Models.isomorphic(refModel, builder.modelBuilder.build()), "models are not isomorphic");
 	}
 
 }
