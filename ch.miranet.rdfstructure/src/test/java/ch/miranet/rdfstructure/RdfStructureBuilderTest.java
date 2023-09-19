@@ -8,6 +8,7 @@ import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Namespace;
 import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 import org.eclipse.rdf4j.model.util.ModelBuilder;
+import org.eclipse.rdf4j.model.vocabulary.OWL;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
@@ -72,6 +73,21 @@ public class RdfStructureBuilderTest {
 				.build();
 
 		assertNotNull(nodeShape);
+
+		assertEquals(refModel, builder.modelBuilder.build());
+	}
+	
+	@Test
+	public void owlOntology() {
+		final String ontologyIri = "https://schema.example.org/myontology";
+		
+		final OwlOntology owlOntology = builder.owlOntology(ontologyIri);
+
+		final Model refModel = refModelBuilder.subject(ontologyIri)
+				.add(RDF.TYPE, OWL.ONTOLOGY)
+				.build();
+
+		assertNotNull(owlOntology);
 
 		assertEquals(refModel, builder.modelBuilder.build());
 	}

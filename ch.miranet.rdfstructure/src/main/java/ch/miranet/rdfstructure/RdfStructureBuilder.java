@@ -8,6 +8,7 @@ import org.eclipse.rdf4j.model.impl.LinkedHashModel;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.util.ModelBuilder;
 import org.eclipse.rdf4j.model.util.ModelException;
+import org.eclipse.rdf4j.model.vocabulary.OWL;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
@@ -82,6 +83,19 @@ public class RdfStructureBuilder {
 
 		return new NodeShape(this, iri);
 	}
+	
+	/** owl:Ontology */
+	public OwlOntology owlOntology(String prefixedNameOrIri) {
+		return owlOntology(mapToIRI(prefixedNameOrIri));
+	}
+	
+	/** owl:Ontology */
+	public OwlOntology owlOntology(IRI iri) {
+		modelBuilder.subject(iri)
+		.add(RDF.TYPE, OWL.ONTOLOGY);
+		
+		return new OwlOntology(this, iri);
+	}	
 
 	// ---------------------------
 
