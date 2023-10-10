@@ -8,15 +8,16 @@ import java.util.stream.Collectors;
 
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.util.ModelBuilder;
 import org.eclipse.rdf4j.model.util.RDFCollections;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
 
-public class NodeShape extends StructuralElement<IRI> {
+public class NodeShape extends StructuralElement<Resource> {
 
-	public NodeShape(RdfStructureBuilder structBuilder, IRI iri) {
-		super(structBuilder, iri);
+	public NodeShape(RdfStructureBuilder structBuilder, Resource nodeShapeResource) {
+		super(structBuilder, nodeShapeResource);
 	}
 
 	/** rdfs:label */
@@ -88,16 +89,84 @@ public class NodeShape extends StructuralElement<IRI> {
 		return this;
 	}
 
+	/** sh:property */
+	protected NodeShape property(String propertyShapePrefixedNameOrIri, RdfProperty property, Consumer<PropertyShape> propertyShapeConsumer) {
+		return property(this.b.mapToIRI(propertyShapePrefixedNameOrIri), property.resource, propertyShapeConsumer);
+	}
+	
+	/** sh:property */
+	protected NodeShape property(String propertyShapePrefixedNameOrIri, String propertyPrefixedNameOrIri, Consumer<PropertyShape> propertyShapeConsumer) {
+		return property(this.b.mapToIRI(propertyShapePrefixedNameOrIri), this.b.mapToIRI(propertyPrefixedNameOrIri), propertyShapeConsumer);
+	}
+	
+	/** sh:property */
+	protected NodeShape property(String propertyShapePrefixedNameOrIri, IRI propertyIri, Consumer<PropertyShape> propertyShapeConsumer) {
+		property0(this.b.mapToIRI(propertyShapePrefixedNameOrIri), propertyIri);
+		return this;
+	}
+	
+	/** sh:property */
+	protected NodeShape property(String propertyShapePrefixedNameOrIri, RdfProperty property) {
+		return property(this.b.mapToIRI(propertyShapePrefixedNameOrIri), property.resource);
+	}
+	
+	/** sh:property */
+	protected NodeShape property(String propertyShapePrefixedNameOrIri, String propertyPrefixedNameOrIri) {
+		return property(this.b.mapToIRI(propertyShapePrefixedNameOrIri), this.b.mapToIRI(propertyPrefixedNameOrIri));
+	}
+	
+	/** sh:property */
+	protected NodeShape property(String propertyShapePrefixedNameOrIri, IRI propertyIri) {
+		property0(this.b.mapToIRI(propertyShapePrefixedNameOrIri), propertyIri);
+		return this;
+	}	
+	
+	/** sh:property */
+	protected NodeShape property(IRI propertyShapeIri, RdfProperty property, Consumer<PropertyShape> propertyShapeConsumer) {
+		return property(propertyShapeIri, property.resource, propertyShapeConsumer);
+	}
+	
+	/** sh:property */
+	protected NodeShape property(IRI propertyShapeIri, String propertyPrefixedNameOrIri, Consumer<PropertyShape> propertyShapeConsumer) {
+		return property(propertyShapeIri, this.b.mapToIRI(propertyPrefixedNameOrIri), propertyShapeConsumer);
+	}
+	
+	/** sh:property */
+	protected NodeShape property(IRI propertyShapeIri, IRI propertyIri, Consumer<PropertyShape> propertyShapeConsumer) {
+		property0(propertyShapeIri, propertyIri);
+		return this;
+	}
+	
+	/** sh:property */
+	protected NodeShape property(IRI propertyShapeIri, RdfProperty property) {
+		return property(propertyShapeIri, property.resource);
+	}
+	
+	/** sh:property */
+	protected NodeShape property(IRI propertyShapeIri, String propertyPrefixedNameOrIri) {
+		return property(propertyShapeIri, this.b.mapToIRI(propertyPrefixedNameOrIri));
+	}
+
+	/** sh:property */
+	protected NodeShape property(IRI propertyShapeIri, IRI propertyIri) {
+		property0(propertyShapeIri, propertyIri);
+		return this;
+	}
+
 	protected PropertyShape property0(IRI propertyIri) {
 		final BNode propertyShapeBNode = this.b.valueFactory.createBNode();
 
-		this.b.modelBuilder.subject(this.resource)
-				.add(SHACL.PROPERTY, propertyShapeBNode);
+		return property0(propertyShapeBNode, propertyIri);
+	}
 
-		this.b.modelBuilder.subject(propertyShapeBNode)
+	protected PropertyShape property0(Resource propertyShapeResource, IRI propertyIri) {
+		this.b.modelBuilder.subject(this.resource)
+				.add(SHACL.PROPERTY, propertyShapeResource);
+
+		this.b.modelBuilder.subject(propertyShapeResource)
 				.add(SHACL.PATH, propertyIri);
 
-		return new PropertyShape(this.b, propertyShapeBNode);
+		return new PropertyShape(this.b, propertyShapeResource);
 	}
 
 	/** sh:deactivated */
@@ -162,7 +231,7 @@ public class NodeShape extends StructuralElement<IRI> {
 		return this;
 	}
 
-	public NodeShape any(BiConsumer<ModelBuilder, IRI> consumer) {
+	public NodeShape any(BiConsumer<ModelBuilder, Resource> consumer) {
 		super.any(consumer);
 		return this;
 	}

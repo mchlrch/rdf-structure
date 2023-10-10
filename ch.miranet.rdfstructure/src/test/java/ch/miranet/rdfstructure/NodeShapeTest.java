@@ -74,4 +74,40 @@ public class NodeShapeTest {
 		assertTrue(Models.isomorphic(refModel, builder.modelBuilder.build()), "models are not isomorphic");
 	}
 
+	@Test
+	public void simple_bnode_propertyShape() {
+		builder.nodeShape("ex:MyShape")
+				.property("ex:myproperty");
+
+		final BNode propertyShapeBNode = builder.valueFactory.createBNode();
+
+		refModelBuilder.subject("ex:MyShape")
+				.add(RDF.TYPE, SHACL.NODE_SHAPE)
+				.add(SHACL.PROPERTY, propertyShapeBNode);
+
+		refModelBuilder.subject(propertyShapeBNode)
+				.add(SHACL.PATH, "ex:myproperty");
+
+		final Model refModel = refModelBuilder.build();
+
+		assertTrue(Models.isomorphic(refModel, builder.modelBuilder.build()), "models are not isomorphic");
+	}
+
+	@Test
+	public void simple_named_propertyShape() {
+		builder.nodeShape("ex:MyNodeShape")
+				.property("ex:MyPropertyShape", "ex:myproperty");
+
+		refModelBuilder.subject("ex:MyNodeShape")
+				.add(RDF.TYPE, SHACL.NODE_SHAPE)
+				.add(SHACL.PROPERTY, "ex:MyPropertyShape");
+
+		refModelBuilder.subject("ex:MyPropertyShape")
+				.add(SHACL.PATH, "ex:myproperty");
+
+		final Model refModel = refModelBuilder.build();
+
+		assertTrue(Models.isomorphic(refModel, builder.modelBuilder.build()), "models are not isomorphic");
+	}
+
 }

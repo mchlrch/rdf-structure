@@ -1,8 +1,10 @@
 package ch.miranet.rdfstructure;
 
+import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Namespace;
+import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.LinkedHashModel;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
@@ -72,16 +74,26 @@ public class RdfStructureBuilder {
 	}
 
 	/** sh:NodeShape */
+	public NodeShape nodeShape() {
+		final BNode nodeShapeBNode = this.valueFactory.createBNode();
+		return nodeShape0(nodeShapeBNode);
+	}
+	
+	/** sh:NodeShape */
 	public NodeShape nodeShape(String prefixedNameOrIri) {
 		return nodeShape(mapToIRI(prefixedNameOrIri));
 	}
 
 	/** sh:NodeShape */
 	public NodeShape nodeShape(IRI iri) {
-		modelBuilder.subject(iri)
+		return nodeShape0(iri);
+	}
+	
+	protected NodeShape nodeShape0(Resource nodeShapeResource) {
+		modelBuilder.subject(nodeShapeResource)
 				.add(RDF.TYPE, SHACL.NODE_SHAPE);
 
-		return new NodeShape(this, iri);
+		return new NodeShape(this, nodeShapeResource);
 	}
 	
 	/** owl:Ontology */
@@ -92,7 +104,7 @@ public class RdfStructureBuilder {
 	/** owl:Ontology */
 	public OwlOntology owlOntology(IRI iri) {
 		modelBuilder.subject(iri)
-		.add(RDF.TYPE, OWL.ONTOLOGY);
+				.add(RDF.TYPE, OWL.ONTOLOGY);
 		
 		return new OwlOntology(this, iri);
 	}	

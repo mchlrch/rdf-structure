@@ -35,26 +35,7 @@ public class PropertyShapeTest {
 	}
 
 	@Test
-	public void simple_propertyShape() {
-		builder.nodeShape("ex:MyShape")
-				.property("ex:myproperty");
-
-		final BNode propertyShapeBNode = builder.valueFactory.createBNode();
-
-		refModelBuilder.subject("ex:MyShape")
-				.add(RDF.TYPE, SHACL.NODE_SHAPE)
-				.add(SHACL.PROPERTY, propertyShapeBNode);
-
-		refModelBuilder.subject(propertyShapeBNode)
-				.add(SHACL.PATH, "ex:myproperty");
-
-		final Model refModel = refModelBuilder.build();
-
-		assertTrue(Models.isomorphic(refModel, builder.modelBuilder.build()), "models are not isomorphic");
-	}
-
-	@Test
-	public void expressive_propertyShape() {
+	public void propertyShape() {
 		builder.nodeShape("ex:MyShape")
 				.property("ex:myproperty", propertyShape -> {
 					propertyShape

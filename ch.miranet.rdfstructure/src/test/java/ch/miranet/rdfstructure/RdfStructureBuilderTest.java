@@ -4,10 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Namespace;
 import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 import org.eclipse.rdf4j.model.util.ModelBuilder;
+import org.eclipse.rdf4j.model.util.Models;
 import org.eclipse.rdf4j.model.vocabulary.OWL;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
@@ -75,6 +77,20 @@ public class RdfStructureBuilderTest {
 		assertNotNull(nodeShape);
 
 		assertEquals(refModel, builder.modelBuilder.build());
+	}
+	
+	@Test
+	public void nodeShape_bnode() {
+		final NodeShape nodeShape = builder.nodeShape();
+
+		final BNode nodeShapeBNode = builder.valueFactory.createBNode();
+		final Model refModel = refModelBuilder.subject(nodeShapeBNode)
+				.add(RDF.TYPE, SHACL.NODE_SHAPE)
+				.build();
+
+		assertNotNull(nodeShape);
+
+		assertTrue(Models.isomorphic(refModel, builder.modelBuilder.build()), "models are not isomorphic");
 	}
 	
 	@Test
