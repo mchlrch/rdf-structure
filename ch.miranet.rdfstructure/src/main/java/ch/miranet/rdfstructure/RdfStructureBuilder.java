@@ -14,6 +14,7 @@ import org.eclipse.rdf4j.model.vocabulary.OWL;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
+import org.eclipse.rdf4j.model.vocabulary.SKOS;
 
 public class RdfStructureBuilder {
 
@@ -22,7 +23,7 @@ public class RdfStructureBuilder {
 	protected final ValueFactory valueFactory;
 
 	public RdfStructureBuilder() {
-		this(RDF.NS, RDFS.NS, SHACL.NS);
+		this(RDF.NS, RDFS.NS, SHACL.NS, OWL.NS, SKOS.NS);
 	}
 
 	public RdfStructureBuilder(Namespace... namespaces) {
@@ -107,7 +108,20 @@ public class RdfStructureBuilder {
 				.add(RDF.TYPE, OWL.ONTOLOGY);
 		
 		return new OwlOntology(this, iri);
-	}	
+	}
+	
+	/** skos:ConceptScheme */
+	public ConceptScheme conceptScheme(String prefixedNameOrIri) {
+		return conceptScheme(mapToIRI(prefixedNameOrIri));
+	}
+	
+	/** skos:ConceptScheme */
+	public ConceptScheme conceptScheme(IRI iri) {
+		modelBuilder.subject(iri)
+				.add(RDF.TYPE, SKOS.CONCEPT_SCHEME);
+
+		return new ConceptScheme(this, iri);
+	}
 
 	// ---------------------------
 

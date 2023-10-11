@@ -14,6 +14,7 @@ import org.eclipse.rdf4j.model.vocabulary.OWL;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.SHACL;
+import org.eclipse.rdf4j.model.vocabulary.SKOS;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -104,6 +105,21 @@ public class RdfStructureBuilderTest {
 				.build();
 
 		assertNotNull(owlOntology);
+
+		assertEquals(refModel, builder.modelBuilder.build());
+	}
+	
+	@Test
+	public void conceptScheme() {
+		final String schemeIri = "https://data.example.org/vocabulary/my-scheme";
+		
+		final ConceptScheme conceptScheme = builder.conceptScheme(schemeIri);
+
+		final Model refModel = refModelBuilder.subject(schemeIri)
+				.add(RDF.TYPE, SKOS.CONCEPT_SCHEME)
+				.build();
+
+		assertNotNull(conceptScheme);
 
 		assertEquals(refModel, builder.modelBuilder.build());
 	}
