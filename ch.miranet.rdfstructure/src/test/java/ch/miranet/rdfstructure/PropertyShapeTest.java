@@ -45,7 +45,8 @@ public class PropertyShapeTest {
 									.add(SKOS.HIDDEN_LABEL, "Hidden label on my property shape"))
 							.count(42)
 							.clazz("ex:MyClass")
-							.datatype("xsd:string");
+							.datatype("xsd:string")
+							.nodeKind("sh:BlankNodeOrIRI");
 				});
 
 		final BNode propertyShapeBNode = builder.valueFactory.createBNode();
@@ -62,7 +63,8 @@ public class PropertyShapeTest {
 				.add(SHACL.MIN_COUNT, 42)
 				.add(SHACL.MAX_COUNT, 42)
 				.add(SHACL.CLASS, "ex:MyClass")
-				.add(SHACL.DATATYPE, "xsd:string");
+				.add(SHACL.DATATYPE, "xsd:string")
+				.add(SHACL.NODE_KIND_PROP, SHACL.BLANK_NODE_OR_IRI);
 
 		final Model refModel = refModelBuilder.build();
 

@@ -90,6 +90,19 @@ public class PropertyShape extends StructuralElement<Resource> {
 		return this;
 	}
 
+	/** sh:nodeKind */
+	public PropertyShape nodeKind(String prefixedNameOrIri) {
+		return nodeKind(this.b.mapToIRI(prefixedNameOrIri));
+	}
+
+	/** sh:nodeKind */
+	public PropertyShape nodeKind(IRI iri) {
+		this.b.modelBuilder.subject(this.resource)
+				.add(SHACL.NODE_KIND_PROP, iri);
+
+		return this;
+	}
+
 	public PropertyShape any(BiConsumer<ModelBuilder, Resource> consumer) {
 		super.any(consumer);
 		return this;
