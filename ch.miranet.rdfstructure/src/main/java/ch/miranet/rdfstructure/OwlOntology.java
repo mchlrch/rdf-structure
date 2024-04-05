@@ -6,13 +6,19 @@ import java.util.function.Consumer;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.util.ModelBuilder;
 import org.eclipse.rdf4j.model.vocabulary.OWL;
-import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 
 public class OwlOntology extends StructuralElement<IRI> {
 
 	public OwlOntology(RdfStructureBuilder structBuilder, IRI iri) {
 		super(structBuilder, iri);
+	}
+
+	/** rdf:type owl:Ontology */
+	public OwlOntology aOwlOntology() {
+		super.a(OWL.ONTOLOGY);
+
+		return this;
 	}
 
 	/** rdfs:label */
@@ -48,7 +54,6 @@ public class OwlOntology extends StructuralElement<IRI> {
 
 	protected RdfsClass owlClass0(IRI classIri) {
 		this.b.modelBuilder.subject(classIri)
-				.add(RDF.TYPE, OWL.CLASS)
 				.add(RDFS.ISDEFINEDBY, this.resource);
 
 		return new RdfsClass(this.b, classIri);
@@ -80,7 +85,6 @@ public class OwlOntology extends StructuralElement<IRI> {
 
 	protected RdfProperty datatypeProperty0(IRI propertyIri) {
 		this.b.modelBuilder.subject(propertyIri)
-				.add(RDF.TYPE, OWL.DATATYPEPROPERTY)
 				.add(RDFS.ISDEFINEDBY, this.resource);
 
 		return new RdfProperty(this.b, propertyIri);
@@ -112,7 +116,6 @@ public class OwlOntology extends StructuralElement<IRI> {
 
 	protected RdfProperty objectProperty0(IRI propertyIri) {
 		this.b.modelBuilder.subject(propertyIri)
-				.add(RDF.TYPE, OWL.OBJECTPROPERTY)
 				.add(RDFS.ISDEFINEDBY, this.resource);
 
 		return new RdfProperty(this.b, propertyIri);

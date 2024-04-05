@@ -9,6 +9,13 @@ public class Concept extends StructuralElement<IRI> {
 		super(structBuilder, iri);
 	}
 
+	/** rdf:type skos:Concept */
+	public Concept aConcept() {
+		super.a(SKOS.CONCEPT);
+
+		return this;
+	}
+
 	/** skos:prefLabel */
 	public Concept prefLabel(String label) {
 		this.b.modelBuilder.subject(this.resource)
@@ -21,16 +28,16 @@ public class Concept extends StructuralElement<IRI> {
 	public Concept broader(Concept broaderConcept) {
 		return broader(broaderConcept.resource);
 	}
-	
+
 	/** skos:broader */
 	public Concept broader(String broaderConceptPrefixedNameOrIri) {
 		return broader(this.b.mapToIRI(broaderConceptPrefixedNameOrIri));
 	}
-	
+
 	/** skos:broader */
 	public Concept broader(IRI broaderConceptIri) {
 		this.b.modelBuilder.subject(this.resource)
-			.add(SKOS.BROADER, broaderConceptIri);
+				.add(SKOS.BROADER, broaderConceptIri);
 
 		return this;
 	}

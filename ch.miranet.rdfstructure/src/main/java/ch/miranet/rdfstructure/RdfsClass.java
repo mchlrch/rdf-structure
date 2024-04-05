@@ -4,12 +4,27 @@ import java.util.function.BiConsumer;
 
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.util.ModelBuilder;
+import org.eclipse.rdf4j.model.vocabulary.OWL;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 
 public class RdfsClass extends StructuralElement<IRI> {
 
 	public RdfsClass(RdfStructureBuilder structBuilder, IRI iri) {
 		super(structBuilder, iri);
+	}
+
+	/** rdf:type rdfs:Class */
+	public RdfsClass aRdfsClass() {
+		super.a(RDFS.CLASS);
+
+		return this;
+	}
+
+	/** rdf:type owl:Class */
+	public RdfsClass aOwlClass() {
+		super.a(OWL.CLASS);
+
+		return this;
 	}
 
 	/** rdfs:subClassOf */
@@ -37,7 +52,7 @@ public class RdfsClass extends StructuralElement<IRI> {
 
 		return this;
 	}
-	
+
 	/** rdfs:comment */
 	public RdfsClass comment(String comment) {
 		this.b.modelBuilder.subject(this.resource)

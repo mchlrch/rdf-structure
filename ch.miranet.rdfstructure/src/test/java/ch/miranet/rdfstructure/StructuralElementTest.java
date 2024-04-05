@@ -2,26 +2,27 @@ package ch.miranet.rdfstructure;
 
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
+import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Namespace;
 import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 import org.eclipse.rdf4j.model.impl.TreeModel;
 import org.eclipse.rdf4j.model.util.ModelBuilder;
-import org.eclipse.rdf4j.model.vocabulary.OWL;
+import org.eclipse.rdf4j.model.util.Values;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
-import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.model.vocabulary.SKOS;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RdfsClassTest {
+public class StructuralElementTest {
 
+	private Namespace nsEx;
 	private ModelBuilder refModelBuilder;
 	private RdfStructureBuilder builder;
 
 	@BeforeEach
 	public void setUp() {
-		final Namespace nsEx = new SimpleNamespace("ex", "http://schema.example.org/");
+		nsEx = new SimpleNamespace("ex", "http://schema.example.org/");
 
 		refModelBuilder = new ModelBuilder(new TreeModel());
 		refModelBuilder.setNamespace(nsEx);
@@ -31,27 +32,21 @@ public class RdfsClassTest {
 	}
 
 	@Test
-	public void rdfsClass() {
-		builder.rdfsClass("ex:SuperClass").aRdfsClass()
-				.label("SuperClass")
-				.comment("Comment on SuperClass")
-				.any((modelBuilder, element) -> modelBuilder.subject(element)
-						.add(SKOS.HIDDEN_LABEL, "Hidden label on SuperClass"));
+	public void myStructuralElement() {
+		final IRI elemIri = Values.iri(nsEx, "myElement");
+		final IRI myClass2Iri = Values.iri(nsEx, "MyClass2");
 
-		builder.rdfsClass("ex:SubClass").aRdfsClass()
-				.subClassOf("ex:SuperClass");
+		final MyStructuralElement elem = new MyStructuralElement(builder, elemIri);
+		elem.a("ex:MyClass1").a(myClass2Iri)
+				.any((modelBuilder, element) -> modelBuilder.subject(element)
+						.add(SKOS.HIDDEN_LABEL, "Hidden label on myElement"));
 
 		final Model actualModel = builder.modelBuilder.build();
 
-		refModelBuilder.subject("ex:SuperClass")
-				.add(RDF.TYPE, RDFS.CLASS)
-				.add(RDFS.LABEL, "SuperClass")
-				.add(RDFS.COMMENT, "Comment on SuperClass")
-				.add(SKOS.HIDDEN_LABEL, "Hidden label on SuperClass");
-
-		refModelBuilder.subject("ex:SubClass")
-				.add(RDF.TYPE, RDFS.CLASS)
-				.add(RDFS.SUBCLASSOF, "ex:SuperClass");
+		refModelBuilder.subject(elemIri)
+				.add(RDF.TYPE, "ex:MyClass1")
+				.add(RDF.TYPE, myClass2Iri)
+				.add(SKOS.HIDDEN_LABEL, "Hidden label on myElement");
 
 		final Model refModel = refModelBuilder.build();
 
@@ -61,18 +56,10 @@ public class RdfsClassTest {
 		assertIterableEquals(refModel, actualModel);
 	}
 
-	@Test
-	public void owlClass() {
-		builder.rdfsClass("ex:SomeClass").aOwlClass();
-
-		final Model actualModel = builder.modelBuilder.build();
-
-		refModelBuilder.subject("ex:SomeClass")
-				.add(RDF.TYPE, OWL.CLASS);
-
-		final Model refModel = refModelBuilder.build();
-
-		assertIterableEquals(refModel, actualModel);
+	private static class MyStructuralElement extends StructuralElement<IRI> {
+		public MyStructuralElement(RdfStructureBuilder structBuilder, IRI iri) {
+			super(structBuilder, iri);
+		}
 	}
 
 }

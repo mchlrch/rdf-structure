@@ -19,6 +19,13 @@ public class NodeShape extends StructuralElement<Resource> {
 	public NodeShape(RdfStructureBuilder structBuilder, Resource nodeShapeResource) {
 		super(structBuilder, nodeShapeResource);
 	}
+	
+	/** rdf:type sh:NodeShape */
+	public NodeShape aNodeShape() {
+		super.a(SHACL.NODE_SHAPE);
+
+		return this;
+	}
 
 	/** rdfs:label */
 	public NodeShape label(String label) {

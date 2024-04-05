@@ -43,7 +43,7 @@ public class NodeShapeTest {
 
 	@Test
 	public void nodeShape() {
-		builder.nodeShape("ex:MyShape")
+		builder.nodeShape("ex:MyShape").aNodeShape()
 				.label("My Shape")
 				.comment("Comment on my shape")
 				.any((modelBuilder, element) -> modelBuilder.subject(element)
@@ -52,6 +52,8 @@ public class NodeShapeTest {
 				.deactivated(true)
 				.closed(true)
 				.ignoredProperties("rdf:type", "ex:foo");
+
+		final Model actualModel = builder.modelBuilder.build();
 
 		final IRI propertyFoo = SimpleValueFactory.getInstance().createIRI(nsEx.getName(), "foo");
 		final List<IRI> ignoredProperties = Arrays.asList(RDF.TYPE, propertyFoo);
@@ -71,13 +73,15 @@ public class NodeShapeTest {
 
 		final Model refModel = refModelBuilder.build();
 
-		assertTrue(Models.isomorphic(refModel, builder.modelBuilder.build()), "models are not isomorphic");
+		assertTrue(Models.isomorphic(refModel, actualModel), "models are not isomorphic");
 	}
 
 	@Test
 	public void simple_bnode_propertyShape() {
-		builder.nodeShape("ex:MyShape")
+		builder.nodeShape("ex:MyShape").aNodeShape()
 				.property("ex:myproperty");
+
+		final Model actualModel = builder.modelBuilder.build();
 
 		final BNode propertyShapeBNode = builder.valueFactory.createBNode();
 
@@ -90,13 +94,15 @@ public class NodeShapeTest {
 
 		final Model refModel = refModelBuilder.build();
 
-		assertTrue(Models.isomorphic(refModel, builder.modelBuilder.build()), "models are not isomorphic");
+		assertTrue(Models.isomorphic(refModel, actualModel), "models are not isomorphic");
 	}
 
 	@Test
 	public void simple_named_propertyShape() {
-		builder.nodeShape("ex:MyNodeShape")
+		builder.nodeShape("ex:MyNodeShape").aNodeShape()
 				.property("ex:MyPropertyShape", "ex:myproperty");
+
+		final Model actualModel = builder.modelBuilder.build();
 
 		refModelBuilder.subject("ex:MyNodeShape")
 				.add(RDF.TYPE, SHACL.NODE_SHAPE)
@@ -107,7 +113,7 @@ public class NodeShapeTest {
 
 		final Model refModel = refModelBuilder.build();
 
-		assertTrue(Models.isomorphic(refModel, builder.modelBuilder.build()), "models are not isomorphic");
+		assertTrue(Models.isomorphic(refModel, actualModel), "models are not isomorphic");
 	}
 
 }

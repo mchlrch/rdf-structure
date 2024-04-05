@@ -36,7 +36,7 @@ public class PropertyShapeTest {
 
 	@Test
 	public void propertyShape() {
-		builder.nodeShape("ex:MyShape")
+		builder.nodeShape("ex:MyShape").aNodeShape()
 				.property("ex:myproperty", propertyShape -> {
 					propertyShape
 							.label("my property shape")

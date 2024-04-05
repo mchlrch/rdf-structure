@@ -12,49 +12,44 @@ import ch.miranet.rdfstructure.RdfsClass;
 public class PizzaSample {
 
 	public static void main(String[] args) {
-		final RdfStructureBuilder builder = new RdfStructureBuilder();
+		RdfStructureBuilder builder = new RdfStructureBuilder();
 
 		builder.getModelBuilder()
 				.setNamespace("ex", "http://schema.example.org/");
 
-		final RdfsClass pizza = builder.rdfsClass("ex:Pizza")
+		RdfsClass pizza = builder.rdfsClass("ex:Pizza").aRdfsClass()
 				.subClassOf("ex:Flatbread")
 				.label("Pizza")
 				.comment("Pizza is a savory dish of Italian origin");
 
-		final RdfProperty dough = builder.rdfProperty("ex:dough")
+		RdfProperty dough = builder.rdfProperty("ex:dough").aRdfProperty()
 				.label("Dough");
 
-		final RdfProperty sauce = builder.rdfProperty("ex:sauce")
+		RdfProperty sauce = builder.rdfProperty("ex:sauce").aRdfProperty()
 				.label("Sauce");
 
-		final RdfProperty cheese = builder.rdfProperty("ex:cheese")
+		RdfProperty cheese = builder.rdfProperty("ex:cheese").aRdfProperty()
 				.label("Cheese");
 
-		final RdfProperty topping = builder.rdfProperty("ex:topping")
+		RdfProperty topping = builder.rdfProperty("ex:topping").aRdfProperty()
 				.label("Topping");
 
-		final NodeShape pizzaShape = builder.nodeShape("ex:PizzaShape")
+		NodeShape pizzaShape = builder.nodeShape("ex:PizzaShape").aNodeShape()
 				.targetClass(pizza)
-				.property(dough, propertyShape -> {
-					propertyShape
+				.property(dough, x -> x
 							.count(1)
-							.clazz("ex:Dough");
-
-				})
-				.property(sauce, propertyShape -> {
-					propertyShape.comment("usually tomato sauce");
-				})
+							.clazz("ex:Dough"))
+				.property(sauce, x -> x
+							.comment("usually tomato sauce"))
 				.property(cheese)
 				.property(topping);
 
 		
 		// one of several ways of breaking out from RdfStructureBuilder and using the
 		// rdf4j ModelBuilder directly
-		pizzaShape.any((modelBuilder, element) -> {
-			modelBuilder.subject(element)
-					.add(SKOS.HIDDEN_LABEL, "Hidden label on my pizza shape");
-		});
+		pizzaShape.any( (modelBuilder, element) -> modelBuilder
+				.subject(element)
+				.add(SKOS.HIDDEN_LABEL, "Hidden label on my pizza shape"));
 
 		System.setProperty("org.eclipse.rdf4j.rio.inline_blank_nodes", Boolean.TRUE.toString());
 		Rio.write(builder.getModelBuilder().build(), System.out, RDFFormat.TURTLE);

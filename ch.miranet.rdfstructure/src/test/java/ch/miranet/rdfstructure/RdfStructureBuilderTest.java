@@ -43,7 +43,7 @@ public class RdfStructureBuilderTest {
 
 	@Test
 	public void rdfsClass() {
-		final RdfsClass rdfsClass = builder.rdfsClass("ex:MyClass");
+		final RdfsClass rdfsClass = builder.rdfsClass("ex:MyClass").aRdfsClass();
 
 		final Model refModel = refModelBuilder.subject("ex:MyClass")
 				.add(RDF.TYPE, RDFS.CLASS)
@@ -56,7 +56,7 @@ public class RdfStructureBuilderTest {
 
 	@Test
 	public void rdfProperty() {
-		final RdfProperty rdfProperty = builder.rdfProperty("ex:property1");
+		final RdfProperty rdfProperty = builder.rdfProperty("ex:property1").aRdfProperty();
 
 		final Model refModel = refModelBuilder.subject("ex:property1")
 				.add(RDF.TYPE, RDF.PROPERTY)
@@ -69,7 +69,7 @@ public class RdfStructureBuilderTest {
 
 	@Test
 	public void nodeShape() {
-		final NodeShape nodeShape = builder.nodeShape("ex:NodeShape1");
+		final NodeShape nodeShape = builder.nodeShape("ex:NodeShape1").aNodeShape();
 
 		final Model refModel = refModelBuilder.subject("ex:NodeShape1")
 				.add(RDF.TYPE, SHACL.NODE_SHAPE)
@@ -79,10 +79,10 @@ public class RdfStructureBuilderTest {
 
 		assertEquals(refModel, builder.modelBuilder.build());
 	}
-	
+
 	@Test
 	public void nodeShape_bnode() {
-		final NodeShape nodeShape = builder.nodeShape();
+		final NodeShape nodeShape = builder.nodeShape().aNodeShape();
 
 		final BNode nodeShapeBNode = builder.valueFactory.createBNode();
 		final Model refModel = refModelBuilder.subject(nodeShapeBNode)
@@ -93,12 +93,12 @@ public class RdfStructureBuilderTest {
 
 		assertTrue(Models.isomorphic(refModel, builder.modelBuilder.build()), "models are not isomorphic");
 	}
-	
+
 	@Test
 	public void owlOntology() {
 		final String ontologyIri = "https://schema.example.org/myontology";
-		
-		final OwlOntology owlOntology = builder.owlOntology(ontologyIri);
+
+		final OwlOntology owlOntology = builder.owlOntology(ontologyIri).aOwlOntology();
 
 		final Model refModel = refModelBuilder.subject(ontologyIri)
 				.add(RDF.TYPE, OWL.ONTOLOGY)
@@ -108,12 +108,12 @@ public class RdfStructureBuilderTest {
 
 		assertEquals(refModel, builder.modelBuilder.build());
 	}
-	
+
 	@Test
 	public void conceptScheme() {
 		final String schemeIri = "https://data.example.org/vocabulary/my-scheme";
-		
-		final ConceptScheme conceptScheme = builder.conceptScheme(schemeIri);
+
+		final ConceptScheme conceptScheme = builder.conceptScheme(schemeIri).aConceptScheme();
 
 		final Model refModel = refModelBuilder.subject(schemeIri)
 				.add(RDF.TYPE, SKOS.CONCEPT_SCHEME)

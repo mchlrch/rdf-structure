@@ -3,13 +3,19 @@ package ch.miranet.rdfstructure;
 import java.util.function.Consumer;
 
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.SKOS;
 
 public class ConceptScheme extends StructuralElement<IRI> {
-	
+
 	public ConceptScheme(RdfStructureBuilder structBuilder, IRI iri) {
 		super(structBuilder, iri);
+	}
+
+	/** rdf:type skos:ConceptScheme */
+	public ConceptScheme aConceptScheme() {
+		super.a(SKOS.CONCEPT_SCHEME);
+
+		return this;
 	}
 
 	/** skos:prefLabel */
@@ -24,7 +30,7 @@ public class ConceptScheme extends StructuralElement<IRI> {
 	public ConceptScheme hasTopConcept(String prefixedNameOrIri, Consumer<Concept> conceptConsumer) {
 		return hasTopConcept(this.b.mapToIRI(prefixedNameOrIri), conceptConsumer);
 	}
-	
+
 	/** skos:hasTopConcept */
 	public ConceptScheme hasTopConcept(IRI conceptIri, Consumer<Concept> conceptConsumer) {
 		final Concept concept = hasTopConcept0(conceptIri);
@@ -44,20 +50,19 @@ public class ConceptScheme extends StructuralElement<IRI> {
 	}
 
 	protected Concept hasTopConcept0(IRI conceptIri) {
-		this.b.modelBuilder.subject(conceptIri)
-				.add(RDF.TYPE, SKOS.CONCEPT);
-		
+		this.b.modelBuilder.subject(conceptIri);
+
 		this.b.modelBuilder.subject(this.resource)
 				.add(SKOS.HAS_TOP_CONCEPT, conceptIri);
 
 		return new Concept(this.b, conceptIri);
 	}
-	
+
 	/** ^skos:inScheme */
 	public ConceptScheme conceptInScheme(String prefixedNameOrIri, Consumer<Concept> conceptConsumer) {
 		return conceptInScheme(this.b.mapToIRI(prefixedNameOrIri), conceptConsumer);
 	}
-	
+
 	/** ^skos:inScheme */
 	public ConceptScheme conceptInScheme(IRI conceptIri, Consumer<Concept> conceptConsumer) {
 		final Concept concept = conceptInScheme0(conceptIri);
@@ -78,7 +83,6 @@ public class ConceptScheme extends StructuralElement<IRI> {
 
 	protected Concept conceptInScheme0(IRI conceptIri) {
 		this.b.modelBuilder.subject(conceptIri)
-				.add(RDF.TYPE, SKOS.CONCEPT)
 				.add(SKOS.IN_SCHEME, this.resource);
 
 		return new Concept(this.b, conceptIri);

@@ -38,7 +38,7 @@ public class OwlOntologyTest {
 
 	@Test
 	public void owlOntology() {
-		builder.owlOntology(ontologyIri)
+		builder.owlOntology(ontologyIri).aOwlOntology()
 				.label("My Ontology")
 				.any((modelBuilder, element) -> modelBuilder.subject(element)
 						.add(SKOS.HIDDEN_LABEL, "Hidden label on my ontology"));
@@ -55,14 +55,13 @@ public class OwlOntologyTest {
 
 	@Test
 	public void owlClass_simple() {
-		builder.owlOntology(ontologyIri)
+		builder.owlOntology(ontologyIri).aOwlOntology()
 				.owlClass("ex:MyClass");
 
 		refModelBuilder.subject(ontologyIri)
 				.add(RDF.TYPE, OWL.ONTOLOGY);
 
 		refModelBuilder.subject("ex:MyClass")
-				.add(RDF.TYPE, OWL.CLASS)
 				.add(RDFS.ISDEFINEDBY, builder.valueFactory.createIRI(ontologyIri));
 
 		final Model refModel = refModelBuilder.build();
@@ -72,9 +71,10 @@ public class OwlOntologyTest {
 
 	@Test
 	public void owlClass_usingConsumer() {
-		builder.owlOntology(ontologyIri)
+		builder.owlOntology(ontologyIri).aOwlOntology()
 				.owlClass("ex:SuperClass", cls -> {
 					cls
+							.aOwlClass()
 							.label("SuperClass")
 							.comment("Comment on my SuperClass")
 							.any((modelBuilder, element) -> modelBuilder.subject(element)
@@ -82,6 +82,7 @@ public class OwlOntologyTest {
 				})
 				.owlClass("ex:SubClass", cls -> {
 					cls
+							.aOwlClass()
 							.label("SubClass")
 							.comment("Comment on my SubClass")
 							.subClassOf("ex:SuperClass");
@@ -111,14 +112,13 @@ public class OwlOntologyTest {
 
 	@Test
 	public void datatypeProperty_simple() {
-		builder.owlOntology(ontologyIri)
+		builder.owlOntology(ontologyIri).aOwlOntology()
 				.datatypeProperty("ex:myDatatypeProperty");
 
 		refModelBuilder.subject(ontologyIri)
 				.add(RDF.TYPE, OWL.ONTOLOGY);
 
 		refModelBuilder.subject("ex:myDatatypeProperty")
-				.add(RDF.TYPE, OWL.DATATYPEPROPERTY)
 				.add(RDFS.ISDEFINEDBY, builder.valueFactory.createIRI(ontologyIri));
 
 		final Model refModel = refModelBuilder.build();
@@ -128,9 +128,10 @@ public class OwlOntologyTest {
 
 	@Test
 	public void datatypeProperty_usingConsumer() {
-		builder.owlOntology(ontologyIri)
+		builder.owlOntology(ontologyIri).aOwlOntology()
 				.datatypeProperty("ex:myDatatypeProperty", prop -> {
 					prop
+							.aOwlDatatypeProperty()
 							.label("my property")
 							.comment("Comment on my property")
 							.subPropertyOf("ex:superproperty")
@@ -156,14 +157,13 @@ public class OwlOntologyTest {
 
 	@Test
 	public void objectProperty_simple() {
-		builder.owlOntology(ontologyIri)
+		builder.owlOntology(ontologyIri).aOwlOntology()
 				.objectProperty("ex:myObjectProperty");
 
 		refModelBuilder.subject(ontologyIri)
 				.add(RDF.TYPE, OWL.ONTOLOGY);
 
 		refModelBuilder.subject("ex:myObjectProperty")
-				.add(RDF.TYPE, OWL.OBJECTPROPERTY)
 				.add(RDFS.ISDEFINEDBY, builder.valueFactory.createIRI(ontologyIri));
 
 		final Model refModel = refModelBuilder.build();
@@ -173,9 +173,10 @@ public class OwlOntologyTest {
 
 	@Test
 	public void objectProperty_usingConsumer() {
-		builder.owlOntology(ontologyIri)
+		builder.owlOntology(ontologyIri).aOwlOntology()
 				.objectProperty("ex:myObjectProperty", prop -> {
 					prop
+							.aOwlObjectProperty()
 							.label("my property")
 							.comment("Comment on my property")
 							.subPropertyOf("ex:superproperty")

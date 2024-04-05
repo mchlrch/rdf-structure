@@ -55,9 +55,6 @@ public class RdfStructureBuilder {
 
 	/** rdfs:Class */
 	public RdfsClass rdfsClass(IRI iri) {
-		modelBuilder.subject(iri)
-				.add(RDF.TYPE, RDFS.CLASS);
-
 		return new RdfsClass(this, iri);
 	}
 
@@ -68,8 +65,7 @@ public class RdfStructureBuilder {
 
 	/** rdf:Property */
 	public RdfProperty rdfProperty(IRI iri) {
-		modelBuilder.subject(iri)
-				.add(RDF.TYPE, RDF.PROPERTY);
+		modelBuilder.subject(iri);
 
 		return new RdfProperty(this, iri);
 	}
@@ -91,8 +87,7 @@ public class RdfStructureBuilder {
 	}
 	
 	protected NodeShape nodeShape0(Resource nodeShapeResource) {
-		modelBuilder.subject(nodeShapeResource)
-				.add(RDF.TYPE, SHACL.NODE_SHAPE);
+		modelBuilder.subject(nodeShapeResource);
 
 		return new NodeShape(this, nodeShapeResource);
 	}
@@ -104,8 +99,7 @@ public class RdfStructureBuilder {
 	
 	/** owl:Ontology */
 	public OwlOntology owlOntology(IRI iri) {
-		modelBuilder.subject(iri)
-				.add(RDF.TYPE, OWL.ONTOLOGY);
+		modelBuilder.subject(iri);
 		
 		return new OwlOntology(this, iri);
 	}
@@ -117,8 +111,7 @@ public class RdfStructureBuilder {
 	
 	/** skos:ConceptScheme */
 	public ConceptScheme conceptScheme(IRI iri) {
-		modelBuilder.subject(iri)
-				.add(RDF.TYPE, SKOS.CONCEPT_SCHEME);
+		modelBuilder.subject(iri);
 
 		return new ConceptScheme(this, iri);
 	}

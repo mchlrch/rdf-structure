@@ -14,6 +14,13 @@ public class PropertyShape extends StructuralElement<Resource> {
 		super(structBuilder, propertyShapeResource);
 	}
 
+	/** rdf:type sh:PropertyShape */
+	public PropertyShape aPropertyShape() {
+		super.a(SHACL.PROPERTY_SHAPE);
+
+		return this;
+	}
+
 	/** rdfs:label */
 	public PropertyShape label(String label) {
 		this.b.modelBuilder.subject(this.resource)
