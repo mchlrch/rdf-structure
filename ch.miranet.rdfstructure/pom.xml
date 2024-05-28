@@ -27,15 +27,16 @@
 	<scm>
 		<connection>scm:git:git://github.com/mchlrch/rdf-structure.git</connection>
 		<developerConnection>scm:git:ssh://github.com:mchlrch/rdf-structure.git</developerConnection>
-		<url>https://github.com/mchlrch/rdf-structure/tree/master</url>
+		<url>https://github.com/mchlrch/rdf-structure/tree/main</url>
 	</scm>
 
 	<properties>
 		<java.version>11</java.version>
 		<maven.compiler.release>${java.version}</maven.compiler.release>
-		<rdf4j.version>4.3.6</rdf4j.version>
+		<rdf4j.version>4.3.11</rdf4j.version>
 		<junit.version>5.7.1</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<gpg.keyname>00406D836A446BC0760F2747ED194A09D70BD320</gpg.keyname>
 	</properties>
 
 	<dependencies>
@@ -158,6 +159,9 @@
 						<goals>
 							<goal>sign</goal>
 						</goals>
+						<configuration>
+				            <keyname>${gpg.keyname}</keyname>				            
+				        </configuration>
 					</execution>
 				</executions>
 			</plugin>

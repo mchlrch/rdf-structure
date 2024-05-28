@@ -9,42 +9,41 @@
 
 Definition (input): 
 
-```
-final RdfsClass pizza = builder.rdfsClass("ex:Pizza")
-		.subClassOf("ex:Flatbread")
-		.label("Pizza")
-		.comment("Pizza is a savory dish of Italian origin");
+```java
+RdfsClass pizza = builder.rdfsClass("ex:Pizza")
+  .subClassOf("ex:Flatbread")
+  .label("Pizza")
+  .comment("Pizza is a savory dish of Italian origin");
 
-final RdfProperty dough = builder.rdfProperty("ex:dough")
-		.label("Dough");
+RdfProperty dough = builder.rdfProperty("ex:dough")
+  .label("Dough");
 
-final RdfProperty sauce = builder.rdfProperty("ex:sauce")
-		.label("Sauce");
+RdfProperty sauce = builder.rdfProperty("ex:sauce")
+  .label("Sauce");
 
-final RdfProperty cheese = builder.rdfProperty("ex:cheese")
-		.label("Cheese");
+RdfProperty cheese = builder.rdfProperty("ex:cheese")
+  .label("Cheese");
 
-final RdfProperty topping = builder.rdfProperty("ex:topping")
-		.label("Topping");
+RdfProperty topping = builder.rdfProperty("ex:topping")
+  .label("Topping");
 
-final NodeShape pizzaShape = builder.nodeShape("ex:PizzaShape")
-		.targetClass(pizza)
-		.property(dough, propertyShape -> {
-			propertyShape
-					.count(1)
-					.clazz("ex:Dough");
-
-		})
-		.property(sauce, propertyShape -> {
-			propertyShape.comment("usually tomato sauce");
-		})
-		.property(cheese)
-		.property(topping);
+NodeShape pizzaShape = builder.nodeShape("ex:PizzaShape")
+  .targetClass(pizza)
+  .property(dough, propertyShape -> {
+    propertyShape
+      .count(1)
+      .clazz("ex:Dough");
+  })
+  .property(sauce, propertyShape -> {
+    propertyShape.comment("usually tomato sauce");
+  })
+  .property(cheese)
+  .property(topping);
 ```
 
 Turtle (output):
 
-```
+```turtle
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
@@ -98,42 +97,42 @@ To fill in the gaps and describe whatever you want, there are several ways of br
 
 Maven dependency for using the latest version:
 
-```
+```xml
 <dependency>
 	<groupId>ch.miranet.rdfstructure</groupId>
 	<artifactId>rdf-structure</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 </dependency>
 ```
 
 If you don't have them declared yet, you most likely also want to include the dependencies for RDF4J in your project:
 
-```
+```xml
 <dependencies>
-	<dependency>
-		<groupId>ch.miranet.rdfstructure</groupId>
-		<artifactId>rdf-structure</artifactId>
-		<version>1.0.0</version>
-	</dependency>
-	<dependency>
-		<groupId>org.eclipse.rdf4j</groupId>
-		<artifactId>rdf4j-model</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.eclipse.rdf4j</groupId>
-		<artifactId>rdf4j-rio-turtle</artifactId>
-	</dependency>
+  <dependency>
+    <groupId>ch.miranet.rdfstructure</groupId>
+    <artifactId>rdf-structure</artifactId>
+    <version>1.1.0</version>
+  </dependency>
+  <dependency>
+    <groupId>org.eclipse.rdf4j</groupId>
+    <artifactId>rdf4j-model</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>org.eclipse.rdf4j</groupId>
+    <artifactId>rdf4j-rio-turtle</artifactId>
+  </dependency>
 </dependencies>
 
 <dependencyManagement>
-	<dependencies>
-		<dependency>
-			<groupId>org.eclipse.rdf4j</groupId>
-			<artifactId>rdf4j-bom</artifactId>
-			<version>3.6.0</version>
-			<type>pom</type>
-			<scope>import</scope>
-		</dependency>
-	</dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.rdf4j</groupId>
+      <artifactId>rdf4j-bom</artifactId>
+      <version>3.11.0</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
 </dependencyManagement>
-``` 
+```
