@@ -102,7 +102,7 @@ Maven dependency for using the latest version:
 <dependency>
 	<groupId>ch.miranet.rdfstructure</groupId>
 	<artifactId>rdf-structure</artifactId>
-	<version>1.1.0</version>
+	<version>2.0.0</version>
 </dependency>
 ```
 
@@ -113,7 +113,7 @@ If you don't have them declared yet, you most likely also want to include the de
   <dependency>
     <groupId>ch.miranet.rdfstructure</groupId>
     <artifactId>rdf-structure</artifactId>
-    <version>1.1.0</version>
+    <version>2.0.0</version>
   </dependency>
   <dependency>
     <groupId>org.eclipse.rdf4j</groupId>
