@@ -17,10 +17,14 @@ public class PizzaSample {
 		builder.getModelBuilder()
 				.setNamespace("ex", "http://schema.example.org/");
 
-		RdfsClass pizza = builder.rdfsClass("ex:Pizza").aRdfsClass()
+		RdfsClass clsPizza = builder.rdfsClass("ex:Pizza").aRdfsClass()
 				.subClassOf("ex:Flatbread")
 				.label("Pizza")
 				.comment("Pizza is a savory dish of Italian origin");
+		
+		RdfsClass clsDough = builder.rdfsClass("ex:Dough").aRdfsClass()
+				.label("Dough")
+				.comment("A thick, malleable mixture of flour and liquid, used for baking into bread or pastry");
 
 		RdfProperty dough = builder.rdfProperty("ex:dough").aRdfProperty()
 				.label("Dough");
@@ -35,7 +39,7 @@ public class PizzaSample {
 				.label("Topping");
 
 		NodeShape pizzaShape = builder.nodeShape("ex:PizzaShape").aNodeShape()
-				.targetClass(pizza)
+				.targetClass(clsPizza)
 				.property(dough, x -> x
 							.count(1)
 							.clazz("ex:Dough"))
@@ -43,6 +47,10 @@ public class PizzaSample {
 							.comment("usually tomato sauce"))
 				.property(cheese)
 				.property(topping);
+		
+		@SuppressWarnings("unused")
+		NodeShape doughShape = builder.nodeShape("ex:DoughShape").aNodeShape()
+				.targetClass(clsDough);
 
 		
 		// one of several ways of breaking out from RdfStructureBuilder and using the
